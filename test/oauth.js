@@ -16,11 +16,11 @@ const signatures = {
   urlWithParams: 'OAuth oauth_consumer_key="consumer_key", oauth_nonce="xaCqEY8Ed9vnfFvZJsu8AjSF1", oauth_signature="LYT0mRAq62MXsnxsTOppEtViTUs%3D", oauth_signature_method="HMAC-SHA1", oauth_timestamp="1583967750", oauth_token="test_user_token", oauth_version="1.0"',
 };
 
-const baseUrl = new URL('https://api.twitter.com/1.1/account/verify_credentials.json')
+const baseUrl = new URL('https://api.twitter.com/1.1/account/verify_credentials.json');
 oauthInstance.setNonceFn(() => 'GXjhffMbAMz2qblDzzgYbP4ZkfPp7RGmhry5Upatw');
 oauthInstance.setTimestampFn(() => '1583967563');
 assert.throws(() => {
-  // non-object and non string body throws TypeError
+  // Non-object and non string body throws TypeError
   oauthInstance.oauth(baseUrl, 'GET', oAuthConfig, () => {});
 }, {
   name: 'TypeError',
@@ -29,7 +29,7 @@ assert.equal(oauthInstance.oauth(baseUrl, 'GET', oAuthConfig), signatures.baseUr
 assert.equal(oauthInstance.oauth(baseUrl, 'GET', oAuthConfig, {}), signatures.baseUrl);
 assert.equal(oauthInstance.oauth(baseUrl, 'GET', oAuthConfig, ''), signatures.baseUrl);
 
-const urlWithParams = new URL('https://api.twitter.com/1.1/account/verify_credentials.json')
+const urlWithParams = new URL('https://api.twitter.com/1.1/account/verify_credentials.json');
 urlWithParams.searchParams.append('param_test', '1');
 urlWithParams.searchParams.append('example', '1');
 oauthInstance.setNonceFn(() => 'xaCqEY8Ed9vnfFvZJsu8AjSF1');

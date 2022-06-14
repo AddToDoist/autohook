@@ -2,13 +2,12 @@ const { URL } = require('url');
 const qs = require('querystring');
 const crypto = require('crypto');
 
-const encode = (str) =>
-  encodeURIComponent(str)
-    .replace(/!/g,'%21')
-    .replace(/\*/g,'%2A')
-    .replace(/\(/g,'%28')
-    .replace(/\)/g,'%29')
-    .replace(/'/g,'%27');
+const encode = (str) => encodeURIComponent(str)
+    .replace(/!/g, '%21')
+    .replace(/\*/g, '%2A')
+    .replace(/\(/g, '%28')
+    .replace(/\)/g, '%29')
+    .replace(/'/g, '%27');
 
 const oAuthFunctions = {
   nonceFn: () => crypto.randomBytes(16).toString('base64'),
@@ -17,7 +16,7 @@ const oAuthFunctions = {
 
 const setNonceFn = (fn) => {
   if (typeof fn !== 'function') {
-    throw new TypeError(`OAuth: setNonceFn expects a function`)
+    throw new TypeError('OAuth: setNonceFn expects a function');
   }
 
   oAuthFunctions.nonceFn = fn;
@@ -25,11 +24,11 @@ const setNonceFn = (fn) => {
 
 const setTimestampFn = (fn) => {
   if (typeof fn !== 'function') {
-    throw new TypeError(`OAuth: setTimestampFn expects a function`)
+    throw new TypeError('OAuth: setTimestampFn expects a function');
   }
 
   oAuthFunctions.timestampFn = fn;
-}
+};
 
 const parameters = (url, auth, body = {}) => {
   let params = {};
@@ -57,21 +56,20 @@ const parameters = (url, auth, body = {}) => {
   params.oauth_version = '1.0';
 
   return params;
-}
+};
 
 const parameterString = (url, auth, params) => {
   const sortedKeys = Object.keys(params).sort();
 
-  let sortedParams = [];
+  const sortedParams = [];
   for (const key of sortedKeys) {
     sortedParams.push(`${key}=${encode(params[key])}`);
   }
 
   return sortedParams.join('&');  
-}
+};
 
-const hmacSha1Signature = (baseString, signingKey) => 
-  crypto
+const hmacSha1Signature = (baseString, signingKey) => crypto
     .createHmac('sha1', signingKey)
     .update(baseString)
     .digest('base64');
@@ -80,7 +78,7 @@ const signatureBaseString = (url, method, paramString) => {
   const urlObject = new URL(url);
   const baseURL = urlObject.origin + urlObject.pathname;
   return `${method.toUpperCase()}&${encode(baseURL)}&${encode(paramString)}`;
-}
+};
 
 const createSigningKey = ({consumer_secret, token_secret}) => `${encode(consumer_secret)}&${encode(token_secret)}`;
 
@@ -99,7 +97,7 @@ const header = (url, auth, signature, params) => {
 
   return `OAuth ${sortedParams.join(', ')}`;
 
-}
+};
 
 const oauth = (url, method, {oauth}, body) => {
   const params = parameters(url, oauth, body);
@@ -109,6 +107,6 @@ const oauth = (url, method, {oauth}, body) => {
   const signature = hmacSha1Signature(baseString, signingKey);
   const signatureHeader = header(url, oauth, signature, params);
   return signatureHeader;
-}
+};
 
 module.exports = {oauth, setNonceFn, setTimestampFn};

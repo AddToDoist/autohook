@@ -37,7 +37,7 @@ const webhook = new Autohook({...oauth, env: environment});
   response.statusCode = 403;
   const scope = nock('https://api.twitter.com')
     .post('/oauth2/token', 'grant_type=client_credentials')
-    .reply(() => [response.statusCode, response.body, response.headers])
+    .reply(() => [response.statusCode, response.body, response.headers]);
   await assert.rejects(webhook.removeWebhooks(), {
     name: 'BearerTokenError'
   });
@@ -53,7 +53,7 @@ const webhook = new Autohook({...oauth, env: environment});
     .post('/oauth2/token', 'grant_type=client_credentials')
     .reply(200, {token_type: 'bearer', access_token: 'test'})
     .get(`/1.1/account_activity/all/${environment}/webhooks.json`)
-    .reply(() => [response.statusCode, response.body, response.headers])
+    .reply(() => [response.statusCode, response.body, response.headers]);
 
   await assert.rejects(webhook.removeWebhooks(), {
     name: 'URIError'
@@ -70,7 +70,7 @@ const webhook = new Autohook({...oauth, env: environment});
     .get(`/1.1/account_activity/all/${environment}/webhooks.json`)
     .reply(200, [{id: webhookId, url: webhookUrl}])
     .delete(`/1.1/account_activity/all/${environment}/webhooks/${webhookId}.json`)
-    .reply(() => [response.statusCode, response.body, response.headers])
+    .reply(() => [response.statusCode, response.body, response.headers]);
 
   await assert.rejects(webhook.removeWebhooks(), {
     name: 'URIError'

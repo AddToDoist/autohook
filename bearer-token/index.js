@@ -1,5 +1,5 @@
 const { post } = require('../client');
-const { BearerTokenError } = require('../errors')
+const { BearerTokenError } = require('../errors');
 
 let _bearerToken = null;
 const bearerToken = async (auth) => {
@@ -23,6 +23,6 @@ const bearerToken = async (auth) => {
 
   _bearerToken = response.body.access_token;
   return _bearerToken;
-}
+};
 
 module.exports = bearerToken;

@@ -39,31 +39,31 @@ const webhook = new Autohook({
   port: argv.port || process.env.PORT,
 });
 
-webhook.on('event', event => console.log(JSON.stringify(event, null, 2)));
+webhook.on('event', (event) => console.log(JSON.stringify(event, null, 2)));
 
 const subscribe = async (auth) => {
   try {
     webhook.subscribe(auth);
-  } catch(e) {
+  } catch (e) {
     console.error(e.message);
     process.exit(-1);
   }
   
-}
+};
 
 (async () => {
-  if (!!argv.reset) {
+  if (argv.reset) {
     await webhook.removeWebhooks();
   }
 
   try {
     await webhook.start(argv.url || null);  
-  } catch(e) {
+  } catch (e) {
     switch (e.constructor) {
       case TooManyWebhooksError:
         console.error('Cannot add webhook: you have exceeded the number of webhooks available', 
           `to you for the '${argv.env || process.env.TWITTER_WEBHOOK_ENV}' environment.`,
-          `Use 'autohook -r' to remove your existing webhooks or remove callbacks manually`,
+          'Use \'autohook -r\' to remove your existing webhooks or remove callbacks manually',
           'using the Twitter API.');
         break;
       default:
@@ -75,7 +75,7 @@ const subscribe = async (auth) => {
 
   }
 
-  if (!!argv.subscribeMe) {
+  if (argv.subscribeMe) {
     await subscribe({
       oauth_token: argv.token || process.env.TWITTER_ACCESS_TOKEN,
       oauth_token_secret: argv.secret || process.env.TWITTER_ACCESS_TOKEN_SECRET,

@@ -18,7 +18,7 @@ const startServer = (port, auth) => http.createServer((req, res) => {
       if (!validateSignature(req.headers, auth, url.parse(req.url).query)) {
         console.error('Cannot validate webhook signature');
         return;
-      };
+      }
     } catch (e) {
       console.error(e);
     }
@@ -30,7 +30,7 @@ const startServer = (port, auth) => http.createServer((req, res) => {
 
   if (req.method === 'POST' && req.headers['content-type'] === 'application/json') {
     let body = '';
-    req.on('data', chunk => {
+    req.on('data', (chunk) => {
       body += chunk.toString();
     });
     req.on('end', () => {
@@ -38,7 +38,7 @@ const startServer = (port, auth) => http.createServer((req, res) => {
         if (!validateSignature(req.headers, auth, body)) {
           console.error('Cannot validate webhook signature');
           return;
-        };
+        }
       } catch (e) {
         console.error(e);
       }
@@ -78,7 +78,7 @@ const startServer = (port, auth) => http.createServer((req, res) => {
       oauth_token_secret: config.token_secret,
     });
     
-  } catch(e) {
+  } catch (e) {
     console.error(e);
     process.exit(-1);
   }

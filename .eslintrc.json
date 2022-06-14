@@ -197,7 +197,6 @@
         "no-sync": "error",
         "no-tabs": "error",
         "no-template-curly-in-string": "error",
-        "no-ternary": "error",
         "no-throw-literal": "error",
         "no-trailing-spaces": "off",
         "no-undef-init": "error",
@@ -246,7 +245,11 @@
         "prefer-spread": "error",
         "prefer-template": "off",
         "quote-props": "off",
-        "quotes": ["error", "single", "avoid-escape"],
+        "quotes": [
+            "error",
+            "single",
+            "avoid-escape"
+        ],
         "radix": "error",
         "require-atomic-updates": "off",
         "require-await": "off",

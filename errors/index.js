@@ -5,7 +5,9 @@ class TwitterError extends Error {
       code = body.errors[0].code;
     }
 
-    super(`${message}` + (code ? ` (HTTP status: ${statusCode}, Twitter code: ${code})` : ''));
+    super(`${message}` + (code
+? ` (HTTP status: ${statusCode}, Twitter code: ${code})`
+: ''));
     this.name = this.constructor.name;
     this.code = code;
     Error.captureStackTrace(this, this.constructor);
@@ -24,7 +26,7 @@ class RateLimitError extends Error {
 
     if (typeof headers !== 'undefined' && typeof headers['x-rate-limit-limit'] !== 'undefined' && typeof headers['x-rate-limit-reset'] !== 'undefined') {
       const requestAllowed = headers['x-rate-limit-limit'];
-      const resetAt = headers['x-rate-limit-reset'] * 1000 - (new Date().getTime());
+      const resetAt = headers['x-rate-limit-reset'] * 1000 - new Date().getTime();
       const resetAtMin = Math.round(resetAt / 60 / 1000);
       super(`You exceeded the rate limit for ${req.path} (${requestAllowed} requests available, 0 remaining). Wait ${resetAtMin} minutes before trying again.`);      
     } else {

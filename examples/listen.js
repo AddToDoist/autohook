@@ -34,15 +34,15 @@ async function accessToken({oauth_token, oauth_token_secret}, verifier) {
     consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
     token: oauth_token,
     token_secret: oauth_token_secret,
-    verifier: verifier,
+    verifier,
   }; 
   
   const req = await post({url: accessTokenURL, oauth: oAuthConfig});
   if (req.body) {
     return qs.parse(req.body);
-  } else {
+  } 
     throw new Error('Cannot get an OAuth access token');
-  }
+  
 }
 
 async function requestToken() {
@@ -55,9 +55,9 @@ async function requestToken() {
   const req = await post({url: requestTokenURL, oauth: oAuthConfig});
   if (req.body) {
     return qs.parse(req.body);
-  } else {
+  } 
     throw new Error('Cannot get an OAuth request token');
-  }
+  
 }
 
 async function markAsRead(messageId, senderId, auth) {
@@ -150,8 +150,7 @@ async function sayHi(event, oauth) {
     
     // Get the access token
     const userToMonitor = await accessToken(oAuthRequestToken, pin.trim());
-    const webhook = new Autohook({
-      token: process.env.TWITTER_ACCESS_TOKEN,
+    const webhook = new Autohook({token: process.env.TWITTER_ACCESS_TOKEN,
       token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
       consumer_key: process.env.TWITTER_CONSUMER_KEY,
       consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
@@ -184,7 +183,7 @@ async function sayHi(event, oauth) {
     await webhook.start();
     await webhook.subscribe(userToMonitor);
     
-  } catch(e) {
+  } catch (e) {
     console.error(e);
     process.exit(-1);
   }

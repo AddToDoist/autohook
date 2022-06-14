@@ -33,7 +33,7 @@ const oauth = {
     .get('/1.1/account_activity/all/subscriptions/count.json')
     .reply(200, {subscriptions_count: 0, provisioned_count: 15})
     .delete(`/1.1/account_activity/all/${environment}/subscriptions/${userId}.json`)
-    .reply(204)
+    .reply(204);
 
   const webhook = new Autohook({...oauth, env: environment});
   await assert.doesNotReject(webhook.removeWebhooks());
