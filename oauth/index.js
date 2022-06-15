@@ -1,13 +1,13 @@
-const { URL } = require('url');
-const qs = require('querystring');
-const crypto = require('crypto');
+import { URL } from 'url';
+import qs from 'querystring';
+import crypto from 'crypto';
 
 const encode = (str) => encodeURIComponent(str)
-    .replace(/!/g, '%21')
-    .replace(/\*/g, '%2A')
-    .replace(/\(/g, '%28')
-    .replace(/\)/g, '%29')
-    .replace(/'/g, '%27');
+    .replace(/!/ug, '%21')
+    .replace(/\*/ug, '%2A')
+    .replace(/\(/ug, '%28')
+    .replace(/\)/ug, '%29')
+    .replace(/'/ug, '%27');
 
 const oAuthFunctions = {
   nonceFn: () => crypto.randomBytes(16).toString('base64'),
@@ -42,6 +42,7 @@ const parameters = (url, auth, body = {}) => {
     body = qs.parse(body);
   }
 
+  // eslint-disable-next-line prefer-reflect
   if (Object.prototype.toString.call(body) !== '[object Object]') {
     throw new TypeError('OAuth: body parameters must be string or object');
   }
@@ -89,6 +90,7 @@ const header = (url, auth, signature, params) => {
   const sortedParams = [];
   for (const key of sortedKeys) {
     if (key.indexOf('oauth_') !== 0) {
+      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -109,4 +111,4 @@ const oauth = (url, method, {oauth}, body) => {
   return signatureHeader;
 };
 
-module.exports = {oauth, setNonceFn, setTimestampFn};
+export {oauth, setNonceFn, setTimestampFn};

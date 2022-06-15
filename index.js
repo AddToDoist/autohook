@@ -1,24 +1,21 @@
-#!/usr/bin/env node
-/* global process, Buffer */
-const ngrok = require('ngrok');
-const http = require('http');
-const url = require('url');
-const crypto = require('crypto');
-const path = require('path');
-const os = require('os');
-const EventEmitter = require('events');
-const URL = require('url').URL;
-const bearerToken = require('./bearer-token');
-const { get, post, del } = require('./client');
-
-const {
+import {
   TooManySubscriptionsError,
   UserSubscriptionError,
   WebhookURIError,
   tryError,
-} = require('./errors');
+} from './errors/index.js';
+import { del, get, post } from './client/index.js';
+import EventEmitter from 'events';
+import bearerToken from './bearer-token/index.js';
+import crypto from 'crypto';
+import dotenv from 'dotenv';
+import http from 'http';
+import ngrok from 'ngrok';
+import os from 'os';
+import path from 'path';
+import url from 'url';
 
-require('dotenv').config({path: path.resolve(os.homedir(), '.env.twitter')});
+dotenv.config({path: path.resolve(os.homedir(), '.env.twitter')});
 
 const DEFAULT_PORT = 1337;
 const WEBHOOK_ROUTE = '/webhook';
@@ -352,7 +349,7 @@ class Autohook extends EventEmitter {
   }
 }
 
-module.exports = {
+export {
   Autohook, 
   WebhookURIError, 
   UserSubscriptionError, 

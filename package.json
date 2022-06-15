@@ -1,16 +1,17 @@
 {
-  "name": "twitter-autohook",
-  "version": "1.7.2",
+  "name": "@addtodoist/twitter-autohook",
+  "version": "1.0.0",
+  "type": "module",
   "description": "Automatically setup and serve webhooks for the Twitter Account Activity API",
   "repository": {
     "type": "git",
-    "url": "https://github.com/twitterdev/autohook"
+    "url": "https://github.com/AddToDoist/autohook"
   },
   "main": "index.js",
-  "bin": {
-    "autohook": "./cli.js"
-  },
   "author": "Twitter",
+  "contributors": [
+    "David Jiménez <dubisdev@gmail.com> (https://dubis.dev)"
+  ],
   "license": "MIT",
   "keywords": [
     "twitter",
@@ -18,13 +19,17 @@
     "webhooks"
   ],
   "dependencies": {
-    "commander": "^2.20.0",
-    "dotenv": "^8.0.0",
-    "needle": "^2.3.3",
-    "ngrok": "^3.2.1",
-    "nock": "^12.0.2"
+    "commander": "2.20.3",
+    "dotenv": "8.6.0",
+    "needle": "2.9.1",
+    "ngrok": "3.4.1",
+    "nock": "12.0.3"
   },
   "devDependencies": {
-    "eslint": "^7.6.0"
+    "eslint-plugin-import": "2.26.0",
+    "eslint": "7.6.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   }
 }

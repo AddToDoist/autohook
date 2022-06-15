@@ -1,7 +1,8 @@
-const { post } = require('../client');
-const { BearerTokenError } = require('../errors');
+import { BearerTokenError } from '../errors/index.js';
+import { post } from '../client/index.js';
 
 let _bearerToken = null;
+
 const bearerToken = async (auth) => {
   if (_bearerToken) {
     return _bearerToken;
@@ -25,4 +26,4 @@ const bearerToken = async (auth) => {
   return _bearerToken;
 };
 
-module.exports = bearerToken;
+export default bearerToken;

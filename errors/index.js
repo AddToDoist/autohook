@@ -61,7 +61,7 @@ const tryError = (response, defaultError = (response) => new TwitterError(respon
   }
 };
 
-module.exports = { 
+export { 
   TwitterError, 
   WebhookURIError, 
   UserSubscriptionError, 
