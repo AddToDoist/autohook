@@ -123,7 +123,7 @@ class Autohook extends EventEmitter {
 
   port: number;
 
-  headers: any[];
+  headers: Array<unknown>;
 
   server: http.Server | undefined;
 
@@ -153,8 +153,8 @@ class Autohook extends EventEmitter {
     this.headers = headers;
   }
 
-  startServer() {
-    this.server = http.createServer((req, res) => {
+  async startServer() {
+    const server = http.createServer((req, res) => {
       const route = url.parse(req.url as string, true);
 
       if (!route.pathname) {
@@ -195,9 +195,15 @@ class Autohook extends EventEmitter {
         });
       }
     }).listen(this.port);
+
+    await new Promise<void>((resolve, reject) => {
+      server.on('listening', resolve).once('error', reject);
+    });
+
+    this.server = server;
   }
 
-  async setWebhook(webhookUrl) {
+  async setWebhook(webhookUrl: string) {
     const parsedUrl = url.parse(webhookUrl);
     if (parsedUrl.protocol === null || parsedUrl.host === 'null') {
       throw new TypeError(`${webhookUrl} is not a valid URL. Please provide a valid URL and try again.`);
@@ -266,7 +272,7 @@ class Autohook extends EventEmitter {
     return response.body;
   }
 
-  async removeWebhook(webhook) {
+  async removeWebhook(webhook: string) {
     await deleteWebhooks([webhook], this.auth, this.env);
   }
 
