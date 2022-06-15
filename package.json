@@ -1,6 +1,6 @@
 {
   "name": "@addtodoist/twitter-autohook",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
   "description": "Automatically setup and serve webhooks for the Twitter Account Activity API",
   "repository": {
@@ -8,6 +8,7 @@
     "url": "https://github.com/AddToDoist/autohook"
   },
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -22,7 +23,8 @@
     "webhooks"
   ],
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepack": "yarn build"
   },
   "dependencies": {
     "dotenv": "16.0.1",
