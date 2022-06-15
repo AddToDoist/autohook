@@ -11,11 +11,10 @@ import crypto from 'crypto';
 import dotenv from 'dotenv';
 import http from 'http';
 import ngrok from 'ngrok';
-import os from 'os';
 import path from 'path';
 import url from 'url';
 
-dotenv.config({path: path.resolve(os.homedir(), '.env.twitter')});
+dotenv.config({path: path.resolve(process.cwd(), '.env.twitter')});
 
 const DEFAULT_PORT = 1337;
 const WEBHOOK_ROUTE = '/webhook';
