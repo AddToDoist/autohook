@@ -12,12 +12,10 @@ Autohook configures and manages [Twitter webhooks](https://developer.twitter.com
 
 ## Usage
 
-You can use Autohook as a module or as a command-line tool.
-
 ### Node.js module
 
 ```js
-const { Autohook } = require('twitter-autohook');
+import { Autohook } from 'twitter-autohook';
 
 (async ƛ => {
   const webhook = new Autohook();
@@ -34,20 +32,6 @@ const { Autohook } = require('twitter-autohook');
   // Subscribes to a user's activity
   await webhook.subscribe({oauth_token, oauth_token_secret});
 })();
-```
-
-### Command line
-
-Starting Autohook from the command line is useful when you need to test your connection and subscriptions.
-
-When started from the command line, Autohook simply provisions a webhook, subscribes your user (unless you specify `--do-not-subscribe-me`), and echoes incoming events to `stdout`.
-
-```bash
-# Starts a server, removes any existing webhook, adds a new webhook, and subscribes to the authenticating user's activity.
-$ autohook -rs
-
-# All the options
-$ autohook --help
 ```
 
 ## OAuth
@@ -105,25 +89,12 @@ new Autohook({
   port: 1337
 });
 ```
-
-### CLI
-
-```bash
-$ autohook \
-  --token $TWITTER_ACCESS_TOKEN \
-  --secret $TWITTER_ACCESS_TOKEN_SECRET \
-  --consumer-key $TWITTER_CONSUMER_KEY \
-  --consumer-secret $TWITTER_CONSUMER_SECRET \
-  --env $TWITTER_WEBHOOK_ENV \
-  --ngrok-secret $NGROK_AUTH_TOKEN # optional
-```
-
 ## Install
 
 ```bash
 # npm
-$ npm i -g twitter-autohook
+$ npm i twitter-autohook
 
 # Yarn
-$ yarn global add twitter-autohook
+$ yarn add twitter-autohook
 ```
