@@ -7,7 +7,10 @@
     "type": "git",
     "url": "https://github.com/AddToDoist/autohook"
   },
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "author": "Twitter",
   "contributors": [
     "David Jiménez <dubisdev@gmail.com> (https://dubis.dev)"
@@ -18,14 +21,19 @@
     "twitter-api",
     "webhooks"
   ],
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "dotenv": "16.0.1",
     "needle": "3.1.0",
     "ngrok": "4.3.1"
   },
   "devDependencies": {
+    "@types/node": "17.0.43",
+    "eslint": "7.32.0",
     "eslint-plugin-import": "2.26.0",
-    "eslint": "7.6.0"
+    "typescript": "4.7.3"
   },
   "engines": {
     "node": ">=16.0.0"

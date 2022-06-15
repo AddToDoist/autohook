@@ -1,6 +1,7 @@
 class TwitterError extends Error {
-  constructor({body, statusCode = null}, message = null, code = null) {
-    if (message === null && code === null && Array.isArray(body.errors)) {
+  code: number | string | null;
+  constructor({body, statusCode = null}: {body?, statusCode?: null | number | string}, message: string | null = null, code = null) {
+    if (message === null && code === null && Array.isArray(body?.errors)) {
       message = body.errors[0].message;
       code = body.errors[0].code;
     }
@@ -17,7 +18,10 @@ class TwitterError extends Error {
 class WebhookURIError extends TwitterError {}
 class UserSubscriptionError extends TwitterError {}
 class RateLimitError extends Error {
-  constructor({body, req = {}, headers = {}, statusCode = null}, message = null, code = null) {
+  resetAt: number;
+  code: number | string | null;
+
+  constructor({body, req = {}, headers = {}, statusCode = null}: {body: any, req?: any, headers?: any, statusCode: null | number | string}, message = null, code = null) {
 
     if (message === null && code === null && Array.isArray(body.errors)) {
       message = body.errors[0].message;

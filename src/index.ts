@@ -19,7 +19,7 @@ dotenv.config({path: path.resolve(process.cwd(), '.env.twitter')});
 const DEFAULT_PORT = 1337;
 const WEBHOOK_ROUTE = '/webhook';
 
-let _getSubscriptionsCount = null;
+let _getSubscriptionsCount: any = null;
 const getSubscriptionsCount = async (auth) => {
   if (_getSubscriptionsCount) {
     return _getSubscriptionsCount;
@@ -110,6 +110,19 @@ const verifyCredentials = async (auth) => {
 };
 
 class Autohook extends EventEmitter {
+  auth: {
+    token: string,
+    token_secret: string,
+    consumer_key: string,
+    consumer_secret: string
+  }
+
+  ngrokSecret: string;
+  env: string;
+  port: number;
+  headers: any[];
+  server: http.Server | undefined;
+
   constructor({
     token = (process.env.TWITTER_ACCESS_TOKEN || '').trim(),
     token_secret = (process.env.TWITTER_ACCESS_TOKEN_SECRET || '').trim(),
@@ -117,7 +130,7 @@ class Autohook extends EventEmitter {
     consumer_secret = (process.env.TWITTER_CONSUMER_SECRET || '').trim(),
     ngrok_secret = (process.env.NGROK_AUTH_TOKEN || '').trim(),
     env = (process.env.TWITTER_WEBHOOK_ENV || '').trim(),
-    port = process.env.PORT || DEFAULT_PORT,
+    port = Number(process.env.PORT) || DEFAULT_PORT,
     headers = [],
   } = {}) {
 
@@ -138,7 +151,7 @@ class Autohook extends EventEmitter {
 
   startServer() {
     this.server = http.createServer((req, res) => {
-      const route = url.parse(req.url, true);
+      const route = url.parse(req.url as string, true);
 
       if (!route.pathname) {
         return;
@@ -146,7 +159,7 @@ class Autohook extends EventEmitter {
 
       if (route.query.crc_token) {
         try {
-          if (!validateSignature(req.headers, this.auth, url.parse(req.url).query)) {
+          if (!validateSignature(req.headers, this.auth, url.parse(req.url as string).query)) {
             console.error('Cannot validate webhook signature');
             return;
           }
@@ -203,7 +216,7 @@ class Autohook extends EventEmitter {
   
     const error = tryError(
       response,
-      (response) => new URIError(response, [
+      (response) => new WebhookURIError(response, [
         `Cannot get webhooks. Please check that '${this.env}' is a valid environment defined in your`,
         'Developer dashboard at https://developer.twitter.com/en/account/environments, and that',
         `your OAuth credentials are valid and can access '${this.env}'. (HTTP status: ${response.statusCode})`].join(' '))
@@ -237,7 +250,7 @@ class Autohook extends EventEmitter {
     const response = await get(requestConfig);
     const error = tryError(
       response,
-      (response) => new URIError(response, [
+      (response) => new WebhookURIError(response, [
         `Cannot get webhooks. Please check that '${this.env}' is a valid environment defined in your`,
         'Developer dashboard at https://developer.twitter.com/en/account/environments, and that',
         `your OAuth credentials are valid and can access '${this.env}'. (HTTP status: ${response.statusCode})`].join(' ')));
@@ -254,11 +267,11 @@ class Autohook extends EventEmitter {
   }
 
   async removeWebhooks() {
-    const webhooks = await this.getWebhooks(this.auth, this.env);
+    const webhooks = await this.getWebhooks();
     await deleteWebhooks(webhooks, this.auth, this.env);
   }
 
-  async start(webhookUrl = null) {
+  async start(webhookUrl: string | null = null) {
     
     if (!webhookUrl) {
       this.startServer();
@@ -296,7 +309,7 @@ class Autohook extends EventEmitter {
     const {subscriptions_count, provisioned_count} = await getSubscriptionsCount(auth);
 
     if (subscriptions_count === provisioned_count) {
-      throw new TooManySubscriptionsError([`Cannot subscribe to ${screen_name}'s activities:`,
+      throw new TooManySubscriptionsError({} ,[`Cannot subscribe to ${screen_name}'s activities:`,
        'you exceeded the number of subscriptions available to you.',
        'Please remove a subscription or upgrade your premium access at',
        'https://developer.twitter.com/apps.',

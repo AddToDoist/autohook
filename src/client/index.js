@@ -1,9 +1,18 @@
 import needle from 'needle';
 import { oauth } from '../oauth/index.js';
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
-const packageJson = require('../package.json');
-needle.defaults({user_agent: `${packageJson.name}/${packageJson.version}`});
+import fs from 'fs';
+
+let packageJson;
+try {
+  const rawdata = fs.readFileSync('package.json', {encoding: 'utf8'});
+  packageJson = JSON.parse(rawdata);
+} catch {
+  packageJson = {};
+}
+const { pkgName = '@addtodoist/twitter-autohook', pkgVersion = '0.0.0' } = packageJson;
+
+
+needle.defaults({user_agent: `${pkgName}/${pkgVersion}`});
 
 const auth = (method, url, options, body) => {
   try {
