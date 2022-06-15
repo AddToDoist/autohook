@@ -115,12 +115,16 @@ class Autohook extends EventEmitter {
     token_secret: string,
     consumer_key: string,
     consumer_secret: string
-  }
+  };
 
   ngrokSecret: string;
+
   env: string;
+
   port: number;
+
   headers: any[];
+
   server: http.Server | undefined;
 
   constructor({
@@ -309,7 +313,7 @@ class Autohook extends EventEmitter {
     const {subscriptions_count, provisioned_count} = await getSubscriptionsCount(auth);
 
     if (subscriptions_count === provisioned_count) {
-      throw new TooManySubscriptionsError({} ,[`Cannot subscribe to ${screen_name}'s activities:`,
+      throw new TooManySubscriptionsError({}, [`Cannot subscribe to ${screen_name}'s activities:`,
        'you exceeded the number of subscriptions available to you.',
        'Please remove a subscription or upgrade your premium access at',
        'https://developer.twitter.com/apps.',

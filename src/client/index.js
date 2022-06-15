@@ -2,12 +2,12 @@ import needle from 'needle';
 import { oauth } from '../oauth/index.js';
 import fs from 'fs';
 
-let packageJson;
+let packageJson = {};
 try {
   const rawdata = fs.readFileSync('package.json', {encoding: 'utf8'});
   packageJson = JSON.parse(rawdata);
 } catch {
-  packageJson = {};
+  console.log('Package.json not found, using default user-agent values');
 }
 const { pkgName = '@addtodoist/twitter-autohook', pkgVersion = '0.0.0' } = packageJson;
 

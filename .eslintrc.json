@@ -3,12 +3,14 @@
         "node": true,
         "es2021": true
     },
+    "parser": "@typescript-eslint/parser",
     "extends": [
         "eslint:recommended",
-        "plugin:import/recommended"
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
     "plugins": [
-        "import"
+        "@typescript-eslint"
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -199,7 +201,6 @@
         "no-sequences": "error",
         "no-shadow": "off",
         "no-spaced-func": "error",
-        "no-sync": "error",
         "no-tabs": "error",
         "no-template-curly-in-string": "error",
         "no-throw-literal": "error",
