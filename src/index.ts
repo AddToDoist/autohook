@@ -161,6 +161,12 @@ class Autohook extends EventEmitter {
         return;
       }
 
+      if (route.pathname === '/status') {
+        res.statusCode = 200;
+        res.end();
+        return;
+      }
+
       if (route.query.crc_token) {
         try {
           if (!validateSignature(req.headers, this.auth, url.parse(req.url as string).query)) {
