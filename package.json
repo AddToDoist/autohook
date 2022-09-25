@@ -5,7 +5,7 @@
   "description": "Automatically setup and serve webhooks for the Twitter Account Activity API",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AddToDoist/autohook"
+    "url": "https://github.com/AddTodoist/autohook"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,16 +28,16 @@
     "lint": "eslint src/**/**"
   },
   "dependencies": {
-    "dotenv": "16.0.1",
+    "dotenv": "16.0.2",
     "needle": "3.1.0",
-    "ngrok": "4.3.1"
+    "ngrok": "4.3.3"
   },
   "devDependencies": {
-    "@types/node": "17.0.43",
-    "@typescript-eslint/eslint-plugin": "5.28.0",
-    "@typescript-eslint/parser": "5.28.0",
-    "eslint": "8.17.0",
-    "typescript": "4.7.3"
+    "@types/node": "18.7.21",
+    "@typescript-eslint/eslint-plugin": "5.38.0",
+    "@typescript-eslint/parser": "5.38.0",
+    "eslint": "8.24.0",
+    "typescript": "4.8.3"
   },
   "engines": {
     "node": ">=16.0.0"
